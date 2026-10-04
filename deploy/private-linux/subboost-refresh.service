@@ -1,0 +1,7 @@
+[Unit]
+Description=Private SubBoost refresh
+After=subboost-app.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/subboost-private/maintenance.py
+TimeoutStartSec=330

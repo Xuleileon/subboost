@@ -1,0 +1,18 @@
+[Unit]
+After=subboost-app.service
+[Container]
+ContainerName=subboost-private-tunnel
+Image=docker.io/cloudflare/cloudflared:2026.9.3
+EnvironmentFile=%h/subboost-private/tunnel.env
+Exec=tunnel --no-autoupdate --protocol http2 run
+DropCapability=all
+NoNewPrivileges=true
+Pod=subboost-private.pod
+LogDriver=k8s-file
+LogOpt=max-size=10mb
+[Service]
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=300
+[Install]
+WantedBy=default.target

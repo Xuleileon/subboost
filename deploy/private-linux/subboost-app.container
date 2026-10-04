@@ -1,0 +1,19 @@
+[Unit]
+Requires=subboost-db.service
+After=subboost-db.service
+[Container]
+Exec=sh -c "export HOSTNAME=0.0.0.0; ../node_modules/.bin/prisma migrate deploy --schema prisma/schema.prisma && exec node server.js"
+ContainerName=subboost-private-app
+Image=localhost/subboost-private:92dcf02
+EnvironmentFile=%h/subboost-private/app.env
+DropCapability=all
+NoNewPrivileges=true
+Pod=subboost-private.pod
+LogDriver=k8s-file
+LogOpt=max-size=10mb
+[Service]
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=300
+[Install]
+WantedBy=default.target

@@ -1,0 +1,6 @@
+[Pod]
+PodName=subboost-private
+Network=slirp4netns
+PublishPort=127.0.0.1:13001:3000
+[Install]
+WantedBy=default.target

@@ -1,0 +1,14 @@
+[Container]
+ContainerName=subboost-private-db
+Image=docker.io/library/postgres:16-alpine
+EnvironmentFile=%h/subboost-private/db.env
+Volume=subboost-db.volume:/var/lib/postgresql/data
+Pod=subboost-private.pod
+LogDriver=k8s-file
+LogOpt=max-size=10mb
+[Service]
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=300
+[Install]
+WantedBy=default.target
