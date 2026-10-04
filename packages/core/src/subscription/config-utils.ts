@@ -79,6 +79,7 @@ function normalizeCustomRules(value: unknown): CustomRule[] | undefined {
     "PROCESS-NAME",
     "DST-PORT",
     "SRC-PORT",
+    "NETWORK",
   ]);
 
   const out: CustomRule[] = [];
@@ -88,7 +89,8 @@ function normalizeCustomRules(value: unknown): CustomRule[] | undefined {
     const type = item.type;
     if (typeof type !== "string" || !allowedTypes.has(type as CustomRule["type"])) continue;
 
-    const ruleValue = toTrimmedString(item.value);
+    const ruleValue = type === "NETWORK" ? (toTrimmedString(item.value) ?? "").toLowerCase() : toTrimmedString(item.value);
+    if (type === "NETWORK" && ruleValue !== "tcp" && ruleValue !== "udp") continue;
     const target = normalizeRuleTarget(item.target);
     if (!ruleValue || !target) continue;
 
